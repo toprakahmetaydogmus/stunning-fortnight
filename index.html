@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>TOPRAK YEL — VALORANT REYNA MAIN</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --r:#FF4655;--rd:#CC2233;--rf:rgba(255,70,85,.12);--bo:rgba(255,70,85,.25);--bob:rgba(255,70,85,.7);
+  --bg:#0F1923;--bgm:#14212E;--bgc:#1A2A38;--bgc2:#0D1720;
+  --w:#FFFBF5;--gr:#8B9BB4;--grd:#3A4A5C;
+  --rv:#9B3CF7;--rvl:#C87FFF;--rvf:rgba(155,60,247,.1);
+  --go:#FFD700;--te:#00FFCC;
+  --sr:0 0 30px rgba(255,70,85,.4),0 0 60px rgba(255,70,85,.15);
+  --srv:0 0 30px rgba(155,60,247,.5),0 0 60px rgba(155,60,247,.15);
+  --es:cubic-bezier(.23,1,.32,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden;font-size:16px}
+body{background:var(--bg);color:var(--w);font-family:'Exo 2',sans-serif;overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased}
+body.ready{overflow-y:auto}
+::selection{background:var(--r);color:var(--w)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--r);border-radius:2px}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* ---- CURSOR ---- */
+#co,#ci{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);opacity:0;mix-blend-mode:difference}
+#co{width:36px;height:36px;border:2px solid var(--r);border-radius:50%;transition:width .2s,height .2s,border-color .2s,opacity .3s}
+#ci{width:6px;height:6px;background:var(--r);border-radius:50%;transition:transform .06s,opacity .3s}
+body.ch #co{width:58px;height:58px;border-color:var(--rv)}
+body.ch #ci{background:var(--rv);transform:translate(-50%,-50%) scale(1.6)}
+
+/* ---- LOADER ---- */
+#loader{position:fixed;inset:0;background:var(--bg);z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s,visibility .8s}
+#loader.out{opacity:0;visibility:hidden;pointer-events:none}
+.lc{position:absolute;width:22px;height:22px;border-color:var(--r);border-style:solid;opacity:.5}
+.lc1{top:22px;left:22px;border-width:2px 0 0 2px}
+.lc2{top:22px;right:22px;border-width:2px 2px 0 0}
+.lc3{bottom:22px;left:22px;border-width:0 0 2px 2px}
+.lc4{bottom:22px;right:22px;border-width:0 2px 2px 0}
+.ltitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,13vw,140px);color:var(--r);text-shadow:var(--sr);animation:lzoom .8s var(--es) forwards .3s;opacity:0;transform:scale(.5);letter-spacing:4px}
+@keyframes lzoom{0%{opacity:0;transform:scale(.5) rotate(-4deg)}60%{opacity:1;transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+.lsub{font-family:'Orbitron',monospace;font-size:clamp(9px,1.3vw,12px);letter-spacing:.4em;color:var(--gr);margin-top:12px;text-transform:uppercase;animation:fup .6s ease forwards .8s;opacity:0;transform:translateY(10px)}
+.lbar{margin-top:44px;width:clamp(200px,38vw,380px);animation:fup .6s ease forwards 1s;opacity:0}
+.lbarlabel{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gr);letter-spacing:.2em;margin-bottom:8px;display:flex;justify-content:space-between}
+.lbartrack{height:2px;background:var(--grd)}
+.lbarfill{height:100%;background:linear-gradient(90deg,var(--rv),var(--r));width:0%;transition:width .1s}
+.lpct{font-family:'Share Tech Mono',monospace;font-size:28px;color:var(--w);text-align:center;margin-top:10px;letter-spacing:.1em}
+.lagent{position:absolute;bottom:48px;left:50%;transform:translateX(-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,3.5vw,34px);letter-spacing:.3em;color:var(--rvl);text-shadow:var(--srv);opacity:0;animation:fup .8s ease forwards 1.5s;white-space:nowrap}
+@keyframes fup{to{opacity:1;transform:translateY(0)}}
+
+/* ---- SCROLL PROGRESS ---- */
+#sp{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--rv),var(--r));z-index:8999;width:0%;box-shadow:0 0 8px rgba(255,70,85,.5);pointer-events:none}
+
+/* ---- CANVAS ---- */
+#pc{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.4}
+
+/* ---- NAV ---- */
+nav{position:fixed;top:0;left:0;right:0;z-index:800;padding:0 clamp(16px,5vw,70px);height:68px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,backdrop-filter .4s}
+nav.sc{background:rgba(13,23,32,.93);backdrop-filter:blur(18px);border-bottom:1px solid var(--bo)}
+.nlogo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;display:flex;align-items:center;gap:6px}
+.nlogo b{color:var(--r);text-shadow:var(--sr)}
+.ndot{width:6px;height:6px;background:var(--r);border-radius:50%;animation:npulse 2s ease-in-out infinite}
+@keyframes npulse{0%,100%{box-shadow:0 0 0 0 rgba(255,70,85,.7)}50%{box-shadow:0 0 0 8px rgba(255,70,85,0)}}
+.nlinks{display:flex;gap:34px}
+.nlink{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gr);position:relative;padding:4px 0;transition:color .15s}
+.nlink::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--r);transition:width .3s}
+.nlink:hover{color:var(--w)}
+.nlink:hover::after{width:100%}
+.nbadge{background:var(--rf);border:1px solid var(--bo);padding:6px 14px;border-radius:4px;font-family:'Orbitron',monospace;font-size:11px;letter-spacing:.1em;color:var(--r);cursor:none;transition:.3s}
+.nbadge:hover{background:var(--r);color:#fff;border-color:var(--r)}
+
+/* ---- HERO ---- */
+#hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:0 clamp(16px,5vw,70px)}
+.hbg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,70,85,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,70,85,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hglow1{position:absolute;left:-20%;top:50%;transform:translateY(-50%);width:540px;height:540px;background:radial-gradient(circle,rgba(155,60,247,.13) 0%,transparent 70%);pointer-events:none;animation:glow 4s ease-in-out infinite}
+.hglow2{position:absolute;right:-8%;top:10%;width:460px;height:460px;background:radial-gradient(circle,rgba(255,70,85,.09) 0%,transparent 70%);pointer-events:none;animation:glow 4s ease-in-out infinite 2s}
+@keyframes glow{0%,100%{opacity:.7;transform:translateY(-50%) scale(1)}50%{opacity:1;transform:translateY(-50%) scale(1.1)}}
+.hcontent{position:relative;z-index:2;max-width:1400px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding-top:80px}
+.htext{display:flex;flex-direction:column;gap:20px}
+.htag{display:inline-flex;align-items:center;gap:10px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:.3em;color:var(--rvl);text-transform:uppercase;animation:sleft .6s var(--es) forwards .2s;opacity:0;transform:translateX(-20px)}
+.htagline{width:28px;height:2px;background:var(--rv);box-shadow:0 0 8px var(--rv)}
+.htagdot{width:8px;height:8px;background:var(--rv);transform:rotate(45deg);box-shadow:0 0 12px var(--rv);animation:spin 3s linear infinite}
+@keyframes sleft{to{opacity:1;transform:translateX(0)}}
+@keyframes spin{0%{transform:rotate(45deg) scale(1)}50%{transform:rotate(225deg) scale(1.3)}100%{transform:rotate(405deg) scale(1)}}
+.hname{font-family:'Bebas Neue',sans-serif;font-size:clamp(58px,8.5vw,125px);line-height:.9;letter-spacing:2px;animation:sup .8s var(--es) forwards .4s;opacity:0;transform:translateY(30px)}
+.hname1{display:block;color:var(--w)}
+.hname2{display:block;color:var(--r);text-shadow:var(--sr);position:relative}
+@keyframes sup{to{opacity:1;transform:translateY(0)}}
+.hrole{display:flex;align-items:center;gap:14px;animation:fup .6s ease forwards .7s;opacity:0}
+.hroletext{font-family:'Orbitron',monospace;font-size:clamp(10px,1.4vw,13px);letter-spacing:.3em;color:var(--gr);text-transform:uppercase}
+.hrolediv{flex:1;height:1px;background:linear-gradient(90deg,var(--grd),transparent)}
+.hreyna{background:linear-gradient(135deg,var(--rv),#7B2FBE);padding:5px 14px;border-radius:4px;font-family:'Orbitron',monospace;font-size:11px;font-weight:600;letter-spacing:.2em;color:#fff;box-shadow:var(--srv);position:relative;overflow:hidden}
+.hreyna::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shine 3s ease infinite 2s}
+@keyframes shine{0%{left:-100%}100%{left:200%}}
+.hdesc{font-family:'Exo 2',sans-serif;font-size:clamp(14px,1.7vw,16px);font-weight:300;line-height:1.85;color:var(--gr);max-width:480px;animation:fup .6s ease forwards .9s;opacity:0}
+.hdesc strong{color:var(--w);font-weight:600}
+.hdesc .rv{color:var(--rvl)}
+.hstats{display:flex;gap:28px;animation:fup .6s ease forwards 1.1s;opacity:0}
+.hstat{display:flex;flex-direction:column;gap:4px}
+.hstatv{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,3.8vw,40px);color:var(--r);line-height:1}
+.hstatl{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--gr);text-transform:uppercase}
+.hstatdiv{width:1px;background:var(--grd);align-self:stretch}
+.hctas{display:flex;gap:14px;animation:fup .6s ease forwards 1.3s;opacity:0}
+.btnp{display:inline-flex;align-items:center;gap:8px;background:var(--r);color:#fff;padding:13px 26px;font-family:'Orbitron',monospace;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-radius:4px;transition:.3s var(--es);position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.btnp::before{content:'';position:absolute;inset:0;background:var(--rd);transform:translateX(-100%);transition:transform .3s var(--es)}
+.btnp:hover::before{transform:translateX(0)}
+.btnp:hover{box-shadow:var(--sr);transform:translateY(-2px)}
+.btnp span{position:relative;z-index:1}
+.btns{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--bo);color:var(--gr);padding:13px 26px;font-family:'Orbitron',monospace;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-radius:4px;transition:.3s}
+.btns:hover{border-color:var(--rv);color:var(--rvl);box-shadow:0 0 20px var(--rvf)}
+
+/* HERO PHOTO */
+.hphoto{position:relative;display:flex;justify-content:center;align-items:center;animation:sright 1s var(--es) forwards .5s;opacity:0;transform:translateX(30px)}
+@keyframes sright{to{opacity:1;transform:translateX(0)}}
+.hframe{position:relative;width:clamp(240px,33vw,460px);aspect-ratio:3/4}
+.hframebg{position:absolute;inset:-18px;background:linear-gradient(135deg,var(--rvf),var(--rf));clip-path:polygon(0 0,calc(100% - 28px) 0,100% 28px,100% 100%,28px 100%,0 calc(100% - 28px));border:1px solid var(--bo)}
+.hframebg::before{content:'';position:absolute;inset:0;background:linear-gradient(var(--bo) 1px,transparent 1px),linear-gradient(90deg,var(--bo) 1px,transparent 1px);background-size:28px 28px;opacity:.3}
+.himg{position:relative;width:100%;height:100%;object-fit:cover;object-position:center top;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));filter:contrast(1.05) saturate(.95);transition:filter .6s}
+.himg:hover{filter:contrast(1.1) saturate(1.1)}
+.hscan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;z-index:3}
+.hoverlay{position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(transparent,rgba(15,25,35,.8));z-index:4}
+.hlabel{position:absolute;bottom:18px;left:18px;z-index:5}
+.hlname{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--w)}
+.hlsub{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--rvl);letter-spacing:.2em;margin-top:3px}
+.hctl,.hcbr{position:absolute;width:28px;height:28px;border-color:var(--r);border-style:solid;z-index:6}
+.hctl{top:-4px;left:-4px;border-width:2px 0 0 2px}
+.hcbr{bottom:-4px;right:-4px;border-width:0 2px 2px 0}
+.hfbadge{position:absolute;top:18px;right:-18px;background:var(--bgc);border:1px solid var(--bo);padding:10px 14px;border-radius:8px;display:flex;flex-direction:column;align-items:center;gap:4px;animation:float 4s ease-in-out infinite;backdrop-filter:blur(10px)}
+.hfrank{position:absolute;bottom:56px;left:-26px;background:var(--bgc);border:1px solid var(--rv);padding:10px 14px;border-radius:8px;display:flex;align-items:center;gap:10px;animation:float 4s ease-in-out infinite 2s;backdrop-filter:blur(10px)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hfbt{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--rvl);letter-spacing:.1em;white-space:nowrap}
+.hfrv{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--go);letter-spacing:2px}
+.hfrl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gr);letter-spacing:.15em;text-transform:uppercase}
+.hscroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fup .6s ease forwards 2s;opacity:0;z-index:10}
+.hscrollt{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--gr);text-transform:uppercase}
+.hscrolll{width:1px;height:36px;background:linear-gradient(var(--r),transparent);animation:sarrow 1.5s ease-in-out infinite}
+@keyframes sarrow{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* MARQUEE */
+.mq{overflow:hidden;padding:38px 0;border-top:1px solid var(--bo);border-bottom:1px solid var(--bo)}
+.mqt{display:flex;white-space:nowrap;animation:mqs 22s linear infinite}
+.mqt.rev{animation-direction:reverse}
+.mqi{display:inline-flex;align-items:center;gap:28px;padding:0 28px;font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,3.8vw,50px);letter-spacing:4px;color:transparent;-webkit-text-stroke:1px var(--grd)}
+.mqi.col{color:var(--w);-webkit-text-stroke:0}
+.mqs{display:inline-block;width:10px;height:10px;background:var(--r);transform:rotate(45deg);flex-shrink:0}
+@keyframes mqs{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS COMMON */
+section{position:relative;z-index:1}
+.si{max-width:1400px;margin:0 auto;padding:0 clamp(16px,5vw,70px)}
+.sh{display:flex;align-items:center;gap:18px;margin-bottom:56px}
+.stag{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.3em;color:var(--r);text-transform:uppercase}
+.stitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5vw,68px);letter-spacing:2px;color:var(--w);line-height:1}
+.stitle span{color:var(--r)}
+.sline{flex:1;height:1px;background:linear-gradient(90deg,var(--bob),transparent)}
+
+/* REVEAL ANIMATIONS */
+.rv0{opacity:0;transform:translateY(38px);transition:opacity .8s var(--es),transform .8s var(--es)}
+.rvl{opacity:0;transform:translateX(-38px);transition:opacity .8s var(--es),transform .8s var(--es)}
+.rvr{opacity:0;transform:translateX(38px);transition:opacity .8s var(--es),transform .8s var(--es)}
+.rvs{opacity:0;transform:scale(.9);transition:opacity .8s var(--es),transform .8s var(--eb)}
+.vis{opacity:1!important;transform:none!important}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}.d6{transition-delay:.6s}.d7{transition-delay:.7s}
+
+/* ABOUT */
+#about{padding:118px 0}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.aleft{display:flex;flex-direction:column;gap:22px}
+.atag{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:.3em;color:var(--rvl);text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.atag::before{content:'';width:18px;height:2px;background:var(--rv);box-shadow:0 0 8px var(--rv)}
+.ahead{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,65px);letter-spacing:2px;line-height:.95;color:var(--w)}
+.ahead .h{color:var(--r)}
+.abio{font-family:'Exo 2',sans-serif;font-size:15px;font-weight:300;line-height:1.9;color:var(--gr)}
+.abio strong{color:var(--w);font-weight:600}
+.abio .rv{color:var(--rvl)}
+.abio .is{color:var(--te)}
+.atags{display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
+.atg{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.15em;padding:6px 13px;border:1px solid var(--bo);border-radius:2px;color:var(--gr);text-transform:uppercase;transition:.3s;position:relative;overflow:hidden}
+.atg::before{content:'';position:absolute;inset:0;background:var(--rf);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.atg:hover{border-color:var(--r);color:var(--w)}
+.atg:hover::before{transform:scaleX(1)}
+.atg span{position:relative;z-index:1}
+.aright{display:flex;flex-direction:column;gap:14px}
+.ic{background:var(--bgc);border:1px solid var(--bo);padding:22px 26px;border-radius:8px;display:flex;align-items:center;gap:18px;transition:.3s;position:relative;overflow:hidden}
+.ic::before{content:'';position:absolute;left:0;top:0;width:3px;height:0%;background:var(--r);transition:height .6s}
+.ic:hover{border-color:var(--bob);background:var(--bgc2);transform:translateX(4px)}
+.ic:hover::before{height:100%}
+.icico{font-size:26px;flex-shrink:0}
+.icl{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--gr);text-transform:uppercase;margin-bottom:3px}
+.icv{font-family:'Exo 2',sans-serif;font-size:16px;font-weight:600;color:var(--w)}
+.icbadge{font-family:'Share Tech Mono',monospace;font-size:10px;background:var(--rf);border:1px solid var(--r);color:var(--r);padding:3px 9px;border-radius:2px;letter-spacing:.1em}
+
+/* PLAYER CARD */
+.pcard{background:linear-gradient(135deg,var(--bgc2),var(--bgc));border:1px solid var(--bo);border-radius:14px;overflow:hidden;max-width:360px;margin:60px auto 0}
+.pcard-hd{background:linear-gradient(135deg,var(--r),#8B1525);padding:18px 22px;display:flex;align-items:center;justify-content:space-between}
+.pcard-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#fff}
+.pcard-id{font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(255,255,255,.7);letter-spacing:.15em}
+.pcard-photo{width:110px;height:110px;border-radius:50%;margin:22px auto;border:3px solid var(--r);box-shadow:0 0 28px rgba(255,70,85,.4);overflow:hidden;display:block;position:relative;background:var(--bgc2)}
+.pcard-photo img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.pcard-body{padding:0 22px 22px;text-align:center}
+.pcard-name{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:3px;color:var(--w);margin-bottom:3px}
+.pcard-role{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:.3em;color:var(--rvl);text-transform:uppercase;margin-bottom:18px}
+.pcard-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bo);border:1px solid var(--bo);border-radius:4px;overflow:hidden;margin-bottom:18px}
+.pcs{background:var(--bgc2);padding:11px 6px;text-align:center}
+.pcsv{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--r)}
+.pcsl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gr);letter-spacing:.15em;text-transform:uppercase;margin-top:2px}
+.pcard-ft{border-top:1px solid var(--bo);padding-top:14px;display:flex;justify-content:space-between;align-items:center}
+.pcard-rank{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;color:var(--go)}
+.pcard-srv{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gr);letter-spacing:.15em}
+
+/* STATS */
+#stats{padding:100px 0;background:linear-gradient(180deg,transparent,var(--bgm) 15%,var(--bgm) 85%,transparent);position:relative;overflow:hidden}
+#stats::before{content:'';position:absolute;inset:0;background:linear-gradient(rgba(255,70,85,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,70,85,.03) 1px,transparent 1px);background-size:40px 40px}
+.sheadline{text-align:center;margin-bottom:72px}
+.shltag{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:.4em;color:var(--r);text-transform:uppercase;display:block;margin-bottom:14px}
+.shlt{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,7vw,88px);letter-spacing:3px;color:var(--w);line-height:.95}
+.shlsub{font-family:'Exo 2',sans-serif;font-size:14px;color:var(--gr);margin-top:18px;font-weight:300}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.sc{background:var(--bgc);padding:38px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;position:relative;overflow:hidden;transition:.3s}
+.sc::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--r),var(--rv));transform:scaleX(0);transition:transform .6s}
+.sc:hover::before{transform:scaleX(1)}
+.sc:hover{background:var(--bgc2)}
+.scico{font-size:30px;filter:drop-shadow(0 0 8px var(--r))}
+.scv{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,5.5vw,76px);color:var(--r);line-height:1;text-shadow:var(--sr)}
+.scl{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:.2em;color:var(--gr);text-transform:uppercase}
+.scs{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--rvl)}
+.sprog{margin-top:74px;display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.pg{display:flex;flex-direction:column;gap:22px}
+.pgt{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--w);margin-bottom:6px}
+.pi{display:flex;flex-direction:column;gap:7px}
+.pih{display:flex;justify-content:space-between}
+.pin{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:.15em;color:var(--w);text-transform:uppercase}
+.piv{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--r)}
+.pt{height:4px;background:var(--bgc);border-radius:2px;overflow:hidden}
+.pf{height:100%;border-radius:2px;width:0%;transition:width 1.5s var(--es);position:relative}
+.pf::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:7px;height:7px;background:#fff;border-radius:50%;box-shadow:0 0 7px #fff}
+.pf.pr{background:linear-gradient(90deg,var(--rd),var(--r))}
+.pf.pp{background:linear-gradient(90deg,#6B1FD7,var(--rv))}
+.pf.pt2{background:linear-gradient(90deg,#008C6E,var(--te))}
+.pf.pg2{background:linear-gradient(90deg,#B8860B,var(--go))}
+
+/* REYNA */
+#reyna{padding:118px 0;position:relative;overflow:hidden}
+.rybg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(155,60,247,.07) 0%,transparent 60%);pointer-events:none}
+.ryintro{text-align:center;max-width:680px;margin:0 auto 72px}
+.ryi-tag{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:.4em;color:var(--rvl);text-transform:uppercase;display:block;margin-bottom:14px}
+.ryi-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,98px);letter-spacing:6px;color:var(--rvl);text-shadow:var(--srv);line-height:1}
+.ryi-sub{font-family:'Exo 2',sans-serif;font-size:15px;color:var(--gr);margin-top:14px;font-weight:300;line-height:1.7}
+.abgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.ab{background:var(--bgc);border:1px solid var(--bo);padding:34px 30px;border-radius:8px;position:relative;overflow:hidden;transition:.3s;cursor:none}
+.ab::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s}
+.ab.devour::before{background:radial-gradient(circle at 50% 50%,rgba(155,60,247,.1),transparent)}
+.ab.dismiss::before{background:radial-gradient(circle at 50% 50%,rgba(0,255,204,.07),transparent)}
+.ab.leer::before{background:radial-gradient(circle at 50% 50%,rgba(255,70,85,.08),transparent)}
+.ab.emp::before{background:radial-gradient(circle at 50% 50%,rgba(255,215,0,.07),transparent)}
+.ab:hover::before{opacity:1}
+.ab:hover{transform:translateY(-4px);border-color:var(--rv);box-shadow:var(--srv)}
+.abh{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.abkey{width:38px;height:38px;background:var(--bgc2);border:2px solid var(--rv);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--rvl);box-shadow:0 0 14px rgba(155,60,247,.3);flex-shrink:0}
+.abname{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--rvl)}
+.abcharges{margin-left:auto;display:flex;gap:5px}
+.abch{width:7px;height:7px;border-radius:50%;background:var(--rv);box-shadow:0 0 5px var(--rv)}
+.abemp{display:none}
+.abdesc{font-family:'Exo 2',sans-serif;font-size:14px;font-weight:300;line-height:1.8;color:var(--gr)}
+.abdesc strong{color:var(--rvl);font-weight:600}
+.abcost{margin-top:14px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--go);display:flex;align-items:center;gap:6px}
+.abtype{margin-top:14px;display:inline-flex;align-items:center;gap:6px;padding:4px 11px;background:rgba(155,60,247,.1);border:1px solid rgba(155,60,247,.3);border-radius:2px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--rvl);text-transform:uppercase}
+.ab.ult{grid-column:span 2;background:linear-gradient(135deg,var(--bgc),var(--bgc2));border-color:var(--go)}
+.ab.ult:hover{border-color:var(--go);box-shadow:0 0 40px rgba(255,215,0,.15),0 0 80px rgba(255,215,0,.08)}
+.ab.ult .abname{color:var(--go);font-size:34px}
+.ab.ult .abkey{border-color:var(--go);color:var(--go);box-shadow:0 0 14px rgba(255,215,0,.3)}
+.ab.ult .abtype{background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3);color:var(--go)}
+.orbs{display:flex;gap:7px;margin-top:18px}
+.orb{width:13px;height:13px;border-radius:50%;background:var(--go);box-shadow:0 0 10px var(--go);animation:op 2s ease-in-out infinite}
+.orb:nth-child(2){animation-delay:.25s}.orb:nth-child(3){animation-delay:.5s}
+.orb:nth-child(4){animation-delay:.75s}.orb:nth-child(5){animation-delay:1s}.orb:nth-child(6){animation-delay:1.25s}
+@keyframes op{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.65)}}
+
+/* TIPS */
+#tips{padding:118px 0}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.tc{background:var(--bgc);border:1px solid var(--bo);padding:26px;border-radius:8px;position:relative;overflow:hidden;transition:.3s}
+.tc::after{content:'';position:absolute;bottom:-2px;left:18px;right:18px;height:2px;background:linear-gradient(90deg,var(--rv),var(--r));opacity:0;transition:opacity .3s}
+.tc:hover::after{opacity:1}
+.tc:hover{border-color:var(--rv);transform:translateY(-4px)}
+.tcn{font-family:'Bebas Neue',sans-serif;font-size:72px;color:rgba(255,70,85,.06);line-height:1;position:absolute;top:8px;right:18px;pointer-events:none}
+.tcico{font-size:26px;margin-bottom:14px}
+.tct{font-family:'Orbitron',monospace;font-size:13px;font-weight:600;letter-spacing:.15em;color:var(--w);text-transform:uppercase;margin-bottom:10px}
+.tct2{font-family:'Exo 2',sans-serif;font-size:13px;font-weight:300;line-height:1.8;color:var(--gr)}
+.tct2 strong{color:var(--rvl);font-weight:600}
+
+/* ISTANBUL */
+#istanbul{padding:118px 0;position:relative;overflow:hidden}
+.istbg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,204,.04) 0%,transparent 50%,rgba(255,70,85,.04) 100%);pointer-events:none}
+.istgrid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.istleft{display:flex;flex-direction:column;gap:26px}
+.isttag{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:.4em;color:var(--te);text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.isttag::before{content:'';width:18px;height:2px;background:var(--te);box-shadow:0 0 7px var(--te)}
+.isth{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,5.5vw,76px);letter-spacing:2px;line-height:.95;color:var(--w)}
+.isth .city{color:var(--te);display:block;text-shadow:0 0 20px rgba(0,255,204,.4)}
+.isttxt{font-family:'Exo 2',sans-serif;font-size:15px;font-weight:300;line-height:1.9;color:var(--gr)}
+.isttxt strong{color:var(--w);font-weight:600}
+.istfacts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.istf{background:var(--bgc);border:1px solid var(--bo);padding:18px;border-radius:8px;transition:.3s;position:relative;overflow:hidden}
+.istf::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--te);opacity:0;transition:opacity .3s}
+.istf:hover::before{opacity:1}
+.istf:hover{border-color:var(--te)}
+.istfic{font-size:22px;margin-bottom:7px}
+.istft{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:.2em;color:var(--te);text-transform:uppercase;margin-bottom:3px}
+.istftxt{font-family:'Exo 2',sans-serif;font-size:13px;color:var(--gr)}
+.istmap{background:var(--bgc);border:1px solid var(--bo);border-radius:8px;aspect-ratio:4/3;position:relative;overflow:hidden;width:100%;max-width:460px}
+.istmgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,204,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,204,.06) 1px,transparent 1px);background-size:28px 28px}
+.bos{position:absolute;top:18%;left:34%;width:9%;height:82%;background:rgba(0,100,200,.22);border-left:1px solid rgba(0,150,255,.3);border-right:1px solid rgba(0,150,255,.3);transform:skewX(-7deg)}
+.pin{position:absolute;display:flex;flex-direction:column;align-items:center;gap:2px}
+.pm{top:33%;left:41%}
+.pb1{top:22%;left:36%}
+.ph{top:43%;left:53%}
+.pdot{width:11px;height:11px;background:var(--r);border-radius:50%;box-shadow:0 0 0 3px rgba(255,70,85,.3),0 0 14px var(--r);animation:ppulse 2s ease-in-out infinite}
+.pb1 .pdot,.ph .pdot{background:var(--te);box-shadow:0 0 0 3px rgba(0,255,204,.3),0 0 12px var(--te);width:8px;height:8px}
+@keyframes ppulse{0%,100%{box-shadow:0 0 0 3px rgba(255,70,85,.3),0 0 14px var(--r)}50%{box-shadow:0 0 0 9px rgba(255,70,85,0),0 0 22px var(--r)}}
+.plbl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--w);white-space:nowrap;background:rgba(13,23,32,.9);padding:2px 5px;border-radius:2px;border:1px solid var(--bo)}
+.istmov{position:absolute;bottom:0;left:0;right:0;padding:18px;background:linear-gradient(transparent,rgba(15,25,35,.95));display:flex;align-items:center;justify-content:space-between}
+.istcoords{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--te);line-height:1.6}
+.istcity{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--w)}
+
+/* GALLERY */
+#gallery{padding:118px 0}
+.galbg{position:absolute;inset:0;background:linear-gradient(180deg,transparent,var(--bgm) 15%,var(--bgm) 85%,transparent);pointer-events:none}
+.pshow{display:grid;grid-template-columns:1.5fr 1fr 1fr;grid-template-rows:auto auto;gap:14px;margin-top:56px}
+.gcard{position:relative;overflow:hidden;border-radius:8px;background:var(--bgc);border:1px solid var(--bo);transition:.3s;cursor:none}
+.gcard:hover{border-color:var(--r);transform:scale(1.01)}
+.gcard.main{grid-row:span 2;aspect-ratio:3/4}
+.gcard.sec{aspect-ratio:4/3}
+.gcard img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .6s,filter .6s;filter:contrast(1.05) saturate(.9)}
+.gcard:hover img{transform:scale(1.05);filter:contrast(1.1) saturate(1.1)}
+.gov{position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(15,25,35,.85));opacity:0;transition:opacity .3s}
+.gcard:hover .gov{opacity:1}
+.ginfo{position:absolute;bottom:0;left:0;right:0;padding:18px;transform:translateY(8px);opacity:0;transition:.3s}
+.gcard:hover .ginfo{transform:translateY(0);opacity:1}
+.gilbl{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--r);letter-spacing:.2em;text-transform:uppercase}
+.gititle{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--w);margin-top:3px}
+.gtxt{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;background:linear-gradient(135deg,var(--bgc),var(--bgc2))}
+.gtxte{font-size:44px;margin-bottom:14px}
+.gtxtt{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,2.3vw,24px);letter-spacing:2px;color:var(--w);line-height:1.2}
+.gtxts{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--r);letter-spacing:.2em;margin-top:7px;text-transform:uppercase}
+
+/* WEAPON */
+#weapon{padding:100px 0}
+.wbanner{background:var(--bgc);border:1px solid var(--bo);border-radius:8px;padding:56px;position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 2fr;gap:56px;align-items:center}
+.wbanner::before{content:'';position:absolute;right:0;top:0;bottom:0;width:50%;background:linear-gradient(90deg,transparent,rgba(155,60,247,.05))}
+.wbt{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--rvl);text-transform:uppercase;margin-bottom:14px}
+.wbh{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5vw,68px);letter-spacing:2px;color:var(--w);line-height:.95;margin-bottom:14px}
+.wbs{font-family:'Exo 2',sans-serif;font-size:14px;font-weight:300;color:var(--gr);line-height:1.7}
+.wsgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.wsi{background:var(--bgc2);border:1px solid var(--bo);padding:14px;border-radius:4px}
+.wsl{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--gr);text-transform:uppercase;margin-bottom:5px}
+.wsv{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--w)}
+.wsbar{margin-top:5px;height:3px;background:var(--grd);border-radius:2px}
+.wsfill{height:100%;background:linear-gradient(90deg,var(--rv),var(--r));border-radius:2px;width:0%;transition:width 1.5s var(--es)}
+
+/* CROSSHAIR */
+.xhsec{margin-top:54px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.xhc{background:var(--bgc);border:1px solid var(--bo);padding:38px;border-radius:8px;text-align:center}
+.xht{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:.25em;color:var(--gr);text-transform:uppercase;margin-bottom:28px}
+.xhd{width:110px;height:110px;margin:0 auto 28px;position:relative}
+.xhl{position:absolute;background:var(--r)}
+.xhl.vt{width:2px;left:50%;transform:translateX(-50%)}
+.xhl.hz{height:2px;top:50%;transform:translateY(-50%)}
+.xhl.top{top:18px;height:28px}.xhl.bot{bottom:18px;height:28px}
+.xhl.lft{left:18px;width:28px}.xhl.rgt{right:18px;width:28px}
+.xhcode{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gr);background:var(--bgc2);padding:9px 14px;border-radius:4px;letter-spacing:.1em;word-break:break-all}
+
+/* TIMELINE */
+#timeline{padding:118px 0;background:linear-gradient(180deg,transparent,var(--bgm) 15%,var(--bgm) 85%,transparent)}
+.tl{position:relative;padding:18px 0;margin-top:56px}
+.tl::before{content:'';position:absolute;left:50%;transform:translateX(-50%);top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,var(--r),var(--rv),var(--go),transparent)}
+.tli{display:flex;align-items:center;gap:36px;margin-bottom:54px;position:relative}
+.tli:nth-child(even){flex-direction:row-reverse}
+.tlc{flex:1;text-align:right}
+.tli:nth-child(even) .tlc{text-align:left}
+.tldot{width:18px;height:18px;background:var(--r);border-radius:50%;border:3px solid var(--bg);box-shadow:0 0 14px var(--r);flex-shrink:0;z-index:2}
+.tldot.rv{background:var(--rv);box-shadow:0 0 14px var(--rv)}
+.tldot.gd{background:var(--go);box-shadow:0 0 14px var(--go)}
+.tlph{flex:1}
+.tlcard{background:var(--bgc);border:1px solid var(--bo);padding:22px;border-radius:8px;transition:.3s}
+.tlcard:hover{border-color:var(--r);transform:scale(1.02)}
+.tlseas{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gr);letter-spacing:.2em;text-transform:uppercase;margin-bottom:5px}
+.tlrk{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;margin-bottom:7px}
+.tlrk.ir{color:#8B7355}.tlrk.br{color:#CD7F32}.tlrk.sl{color:#C0C0C0}
+.tlrk.gd{color:var(--go)}.tlrk.pl{color:#00E5FF}.tlrk.di{color:var(--rvl)}
+.tlrk.im{color:var(--r)}.tlrk.ra{color:#FFEC3D}
+.tldesc{font-family:'Exo 2',sans-serif;font-size:13px;font-weight:300;color:var(--gr);line-height:1.7}
+
+/* MAPS */
+#maps{padding:118px 0;position:relative;overflow:hidden}
+.mapsbg{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(255,70,85,.03) 50%,transparent);pointer-events:none}
+.mapsgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.mcard{background:var(--bgc);border:1px solid var(--bo);border-radius:8px;overflow:hidden;position:relative;transition:.3s;cursor:none;aspect-ratio:16/10;display:flex;align-items:flex-end}
+.mcard:hover{border-color:var(--r);transform:translateY(-6px);box-shadow:var(--sr)}
+.mcbg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:72px;opacity:.07;transition:opacity .3s}
+.mcard:hover .mcbg{opacity:.14}
+.mcgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,70,85,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,70,85,.04) 1px,transparent 1px);background-size:18px 18px}
+.mcc{position:relative;padding:18px;z-index:2;width:100%;background:linear-gradient(transparent,rgba(15,25,35,.95))}
+.mcn{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--w)}
+.mcs{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gr);letter-spacing:.2em;text-transform:uppercase;margin-top:3px}
+.mcwr{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.mcwrt{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gr)}
+.mcwrv{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--r)}
+.mcwrv.hi{color:#00C975}
+
+/* TRIBUTE */
+#tribute{padding:118px 0;position:relative;overflow:hidden}
+.trbg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,70,85,.05) 0%,transparent 70%);pointer-events:none}
+.trcnt{text-align:center;max-width:780px;margin:0 auto;position:relative;z-index:2}
+.trtag{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.4em;color:var(--r);text-transform:uppercase;display:block;margin-bottom:18px}
+.trq{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5vw,68px);letter-spacing:2px;line-height:1.1;color:var(--w);margin-bottom:28px}
+.trq .acc{color:var(--r);display:block}
+.trsub{font-family:'Exo 2',sans-serif;font-size:17px;font-weight:300;line-height:1.8;color:var(--gr);margin-bottom:36px}
+.trsub strong{color:var(--w);font-weight:600}
+.trsub .rv{color:var(--rvl)}
+.trhearts{display:flex;justify-content:center;gap:18px;font-size:30px;margin-bottom:36px}
+.trh{animation:hb 1.5s ease-in-out infinite}
+.trh:nth-child(2){animation-delay:.2s}.trh:nth-child(3){animation-delay:.4s}.trh:nth-child(4){animation-delay:.6s}.trh:nth-child(5){animation-delay:.8s}
+@keyframes hb{0%,100%{transform:scale(1)}25%{transform:scale(1.2)}75%{transform:scale(1.15)}}
+.trbox{background:var(--bgc);border:1px solid var(--bo);border-radius:8px;padding:38px;margin:36px 0;position:relative;overflow:hidden;text-align:left}
+.trbox::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--r),var(--rv),var(--r))}
+.trqt{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,2.5vw,26px);letter-spacing:2px;color:var(--w);margin-bottom:18px;line-height:1.4}
+.trsig{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--r);letter-spacing:.2em;text-transform:uppercase}
+.trdiv{display:flex;align-items:center;gap:18px;margin:36px 0}
+.trdivl{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--bo),transparent)}
+.trdivc{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gr);letter-spacing:.2em;padding:0 14px;text-transform:uppercase}
+.trdivd{width:8px;height:8px;background:var(--r);transform:rotate(45deg)}
+.trplt{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--w);margin-bottom:18px}
+.plitems{display:flex;flex-direction:column;gap:10px;text-align:left}
+.pli{display:flex;align-items:center;gap:14px;background:var(--bgc);border:1px solid var(--bo);padding:12px 18px;border-radius:8px;transition:.3s}
+.pli:hover{border-color:var(--rv);background:var(--bgc2)}
+.plinum{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gr);width:18px}
+.pliico{font-size:18px}
+.plii{flex:1}
+.plin{font-family:'Exo 2',sans-serif;font-size:14px;font-weight:600;color:var(--w)}
+.plia{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gr);margin-top:2px}
+.plid{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--rvl)}
+
+/* FOOTER */
+footer{position:relative;padding:72px 0 36px;background:var(--bgc2);border-top:1px solid var(--bo);overflow:hidden}
+.ftbg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,70,85,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,70,85,.025) 1px,transparent 1px);background-size:38px 38px;pointer-events:none}
+.ftorb1,.ftorb2{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none}
+.ftorb1{width:260px;height:260px;background:rgba(255,70,85,.12);top:-40px;left:-60px;animation:glow 10s ease-in-out infinite}
+.ftorb2{width:220px;height:220px;background:rgba(155,60,247,.1);bottom:0;right:80px;animation:glow 12s ease-in-out infinite 3s}
+.ftcnt{position:relative;z-index:2}
+.fttop{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:52px;margin-bottom:52px}
+.ftbrand{display:flex;flex-direction:column;gap:14px}
+.ftlogo{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;color:var(--w)}
+.ftlogo span{color:var(--r)}
+.fttag{font-family:'Exo 2',sans-serif;font-size:13px;font-weight:300;color:var(--gr);line-height:1.7;max-width:260px}
+.ftsoc{display:flex;gap:10px;margin-top:6px}
+.ftsocb{width:38px;height:38px;background:var(--bgc);border:1px solid var(--bo);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:16px;transition:.3s;cursor:none}
+.ftsocb:hover{border-color:var(--r);background:var(--rf);transform:translateY(-2px)}
+.ftcolt{font-family:'Orbitron',monospace;font-size:11px;font-weight:600;letter-spacing:.2em;color:var(--w);text-transform:uppercase;margin-bottom:18px}
+.ftlinks{display:flex;flex-direction:column;gap:10px}
+.ftlink{font-family:'Exo 2',sans-serif;font-size:13px;font-weight:300;color:var(--gr);transition:color .15s;display:flex;align-items:center;gap:6px}
+.ftlink::before{content:'›';color:var(--r);opacity:0;transition:opacity .15s,transform .15s;transform:translateX(-4px)}
+.ftlink:hover{color:var(--w)}
+.ftlink:hover::before{opacity:1;transform:translateX(0)}
+.ftbot{border-top:1px solid var(--bo);padding-top:26px;display:flex;justify-content:space-between;align-items:center}
+.ftcp{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gr);letter-spacing:.1em}
+.ftcp span{color:var(--r)}
+.ftvl{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;color:var(--r);opacity:.6}
+.ftmw{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gr);display:flex;align-items:center;gap:5px}
+.ftmw .h{color:var(--r);animation:hb 1.5s ease-in-out infinite}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.sgrid{grid-template-columns:repeat(2,1fr)}.tgrid{grid-template-columns:1fr 1fr}.fttop{grid-template-columns:1fr 1fr;gap:36px}}
+@media(max-width:900px){.hcontent{grid-template-columns:1fr}.hphoto{order:-1}.hframe{width:240px}.hfbadge,.hfrank{display:none}.agrid{grid-template-columns:1fr}.istgrid{grid-template-columns:1fr}.abgrid{grid-template-columns:1fr}.ab.ult{grid-column:span 1}.nlinks{display:none}.mapsgrid{grid-template-columns:1fr 1fr}.wbanner{grid-template-columns:1fr;gap:26px;padding:28px}.xhsec{grid-template-columns:1fr}.sprog{grid-template-columns:1fr}.tl::before{left:16px}.tli{flex-direction:row!important;gap:18px}.tldot{order:-1}.tlc{text-align:left!important}.tlph{display:none}}
+@media(max-width:600px){.hstats{gap:18px}.hctas{flex-direction:column}.sgrid{grid-template-columns:1fr 1fr}.tgrid{grid-template-columns:1fr}.mapsgrid{grid-template-columns:1fr}.pshow{grid-template-columns:1fr}.gcard.main{grid-row:span 1}.ftbot{flex-direction:column;gap:14px;text-align:center}.fttop{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="co"></div><div id="ci"></div>
+<div id="sp"></div>
+<canvas id="pc"></canvas>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="lc lc1"></div><div class="lc lc2"></div><div class="lc lc3"></div><div class="lc lc4"></div>
+  <div class="ltitle">VALORANT</div>
+  <div class="lsub">TOPRAK YEL / REYNA MAIN / İSTANBUL</div>
+  <div class="lbar">
+    <div class="lbarlabel"><span>LOADING AGENT</span><span id="llpct">0%</span></div>
+    <div class="lbartrack"><div class="lbarfill" id="lf"></div></div>
+    <div class="lpct" id="lpct">0</div>
+  </div>
+  <div class="lagent">⬦ REYNA ⬦</div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nlogo"><b>T</b>OPRAK<div class="ndot"></div></a>
+  <ul class="nlinks">
+    <li><a href="#about"    class="nlink">Hakkında</a></li>
+    <li><a href="#stats"    class="nlink">İstatistik</a></li>
+    <li><a href="#reyna"    class="nlink">Reyna</a></li>
+    <li><a href="#istanbul" class="nlink">İstanbul</a></li>
+    <li><a href="#gallery"  class="nlink">Galeri</a></li>
+    <li><a href="#tribute"  class="nlink">Tribute</a></li>
+  </ul>
+  <div class="nbadge">⬦ REYNA MAIN</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hbg"></div><div class="hglow1"></div><div class="hglow2"></div>
+  <div class="hcontent">
+    <div class="htext">
+      <div class="htag">
+        <div class="htagline"></div><div class="htagdot"></div>
+        <span>Valorant Agent</span>
+        <span style="color:var(--gr)">//</span>
+        <span id="typespan">TR Server</span>
+      </div>
+      <h1 class="hname">
+        <span class="hname1">TOPRAK</span>
+        <span class="hname2">YEL</span>
+      </h1>
+      <div class="hrole">
+        <span class="hroletext">Duelist Specialist</span>
+        <div class="hrolediv"></div>
+        <span class="hreyna">✦ REYNA MAIN ✦</span>
+      </div>
+      <p class="hdesc">
+        İstanbul'un kalbinden gelen, <strong>Valorant</strong> sahnesinin en tehlikeli
+        <span class="rv">Reyna</span> oyuncularından biri. Her maçta rakiplerin ruhunu
+        emerek zafere ulaşır. <strong>Ölümsüz bir irade</strong>, kurşun hızında refleksler.
+      </p>
+      <div class="hstats">
+        <div class="hstat"><span class="hstatv">2.8</span><span class="hstatl">K/D Oranı</span></div>
+        <div class="hstatdiv"></div>
+        <div class="hstat"><span class="hstatv">87%</span><span class="hstatl">Reyna Pick</span></div>
+        <div class="hstatdiv"></div>
+        <div class="hstat"><span class="hstatv">#1</span><span class="hstatl">En İyi Arkadaş</span></div>
+      </div>
+      <div class="hctas">
+        <a href="#stats" class="btnp"><span>İstatistikleri Gör</span><span>→</span></a>
+        <a href="#reyna" class="btns"><span>⬦ Reyna Guide</span></a>
+      </div>
+    </div>
+    <div class="hphoto">
+      <div class="hframe">
+        <div class="hframebg"></div>
+        <img src="photo.png" alt="Toprak Yel" class="himg" id="hphotoimg"
+          onerror="document.getElementById('hphotofb').style.display='flex';this.style.display='none'"/>
+        <div id="hphotofb" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:linear-gradient(135deg,#1A2A38,#0D1720);clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))">
+          <div style="font-size:72px;filter:drop-shadow(0 0 15px var(--rv))">⬦</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--rvl)">TOPRAK YEL</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gr);letter-spacing:.2em">PHOTO.PNG</div>
+        </div>
+        <div class="hscan"></div><div class="hoverlay"></div>
+        <div class="hlabel"><div class="hlname">TOPRAK YEL</div><div class="hlsub">⬦ REYNA MAIN · İSTANBUL</div></div>
+        <div class="hctl"></div><div class="hcbr"></div>
+      </div>
+      <div class="hfbadge">
+        <div style="font-size:22px">⬦</div>
+        <div class="hfbt">EMPRESS ACTIVE</div>
+      </div>
+      <div class="hfrank">
+        <div style="font-size:26px">💎</div>
+        <div><div class="hfrl">Current Rank</div><div class="hfrv">DIAMOND</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hscroll"><span class="hscrollt">Scroll</span><div class="hscrolll"></div></div>
+</section>
+
+<!-- MARQUEE 1 -->
+<div class="mq" style="background:rgba(255,70,85,.025)">
+  <div class="mqt">
+    <span class="mqi col">TOPRAK YEL</span><span class="mqs"></span>
+    <span class="mqi">REYNA MAIN</span><span class="mqs"></span>
+    <span class="mqi col">İSTANBUL</span><span class="mqs"></span>
+    <span class="mqi">VALORANT</span><span class="mqs"></span>
+    <span class="mqi col">DUELIST</span><span class="mqs"></span>
+    <span class="mqi">EMPRESS</span><span class="mqs"></span>
+    <span class="mqi col">TOPRAK YEL</span><span class="mqs"></span>
+    <span class="mqi">REYNA MAIN</span><span class="mqs"></span>
+    <span class="mqi col">İSTANBUL</span><span class="mqs"></span>
+    <span class="mqi">VALORANT</span><span class="mqs"></span>
+    <span class="mqi col">DUELIST</span><span class="mqs"></span>
+    <span class="mqi">EMPRESS</span><span class="mqs"></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="si">
+    <div class="agrid">
+      <div class="aleft rvl">
+        <div class="atag">Oyuncu Profili</div>
+        <h2 class="ahead">KİM BU<br><span class="h">TOPRAK?</span></h2>
+        <p class="abio"><strong>Toprak Yel</strong>, İstanbul'un gürültülü sokaklarından doğup büyümüş, Valorant'ı bir tutku olarak benimsemiş gerçek bir <span class="rv">Reyna</span> ustası. Klavyesi ateş püskürürken, gözleri ekranda sabitlenmiş hâlde saatler boyu rakipleri tek tek elimine gönderir.</p>
+        <p class="abio"><span class="is">İstanbul'un</span> tarihi dokusu kadar köklü bir oyun stiline sahip olan Toprak, <strong>agresif push</strong> ve mükemmel <strong>aim precision</strong> kombinasyonuyla tanınır. <span class="rv">Empress</span> aktive ettiğinde ise ekran gerçek anlamda kızıla boyanır.</p>
+        <p class="abio">Onu yakından tanıyanlar bilir: maç kaybetmek sadece bir strateji değişikliği için fırsattır. <strong>Never tilt, always grind.</strong></p>
+        <div class="atags">
+          <div class="atg"><span>⬦ Reyna Main</span></div>
+          <div class="atg"><span>🏙️ İstanbul</span></div>
+          <div class="atg"><span>🎯 Aim Freak</span></div>
+          <div class="atg"><span>🔥 Aggressive</span></div>
+          <div class="atg"><span>💜 Valorant</span></div>
+          <div class="atg"><span>⚡ Entry Fragger</span></div>
+          <div class="atg"><span>🎮 Pro Mindset</span></div>
+          <div class="atg"><span>🌃 Night Grinder</span></div>
+        </div>
+      </div>
+      <div class="aright">
+        <div class="ic rvr d1"><div class="icico">🎮</div><div><div class="icl">Ana Ajan</div><div class="icv">Reyna — Duelist</div></div><div class="icbadge">MAIN</div></div>
+        <div class="ic rvr d2"><div class="icico">🏙️</div><div><div class="icl">Şehir</div><div class="icv">İstanbul, Türkiye</div></div><div class="icbadge">TR</div></div>
+        <div class="ic rvr d3"><div class="icico">🎯</div><div><div class="icl">Playstyle</div><div class="icv">Aggressive Entry Fragger</div></div></div>
+        <div class="ic rvr d4"><div class="icico">💎</div><div><div class="icl">Rank</div><div class="icv">Diamond — TR Server</div></div><div class="icbadge">RANKED</div></div>
+        <div class="ic rvr d5"><div class="icico">⚔️</div><div><div class="icl">Tercih Silahı</div><div class="icv">Vandal / Operator</div></div></div>
+        <div class="ic rvr d6"><div class="icico">🌙</div><div><div class="icl">Peak Hours</div><div class="icv">Gece 22:00 — 03:00</div></div><div class="icbadge">NIGHT OWL</div></div>
+        <div class="ic rvr d7"><div class="icico">❤️</div><div><div class="icl">En İyi Arkadaşı Diyor Ki</div><div class="icv">"Onu çok seviyorum!"</div></div><div class="icbadge">LEGEND</div></div>
+      </div>
+    </div>
+    <div class="rvs" style="transition-delay:.1s">
+      <div style="display:flex;align-items:center;gap:0;margin:52px 0;opacity:.5">
+        <div style="flex:1;height:1px;background:var(--bo)"></div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--gr);padding:0 18px;text-transform:uppercase">Player Card</div>
+        <div style="width:6px;height:6px;background:var(--r);transform:rotate(45deg);margin:0 8px"></div>
+        <div style="flex:1;height:1px;background:var(--bo)"></div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-hd"><div class="pcard-logo">VALORANT</div><div class="pcard-id">#TR-001</div></div>
+        <div class="pcard-photo">
+          <img src="photo.png" alt="Toprak Yel"
+            onerror="this.parentElement.innerHTML='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:44px;background:var(--bgc2);border-radius:50%\'>⬦</div>'"/>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">TOPRAK YEL</div>
+          <div class="pcard-role">⬦ REYNA MAIN · DUELIST</div>
+          <div class="pcard-stats">
+            <div class="pcs"><div class="pcsv">2.8</div><div class="pcsl">K/D</div></div>
+            <div class="pcs"><div class="pcsv">87%</div><div class="pcsl">Reyna</div></div>
+            <div class="pcs"><div class="pcsv">240</div><div class="pcsl">ACS</div></div>
+          </div>
+          <div class="pcard-ft"><div class="pcard-rank">💎 DIAMOND</div><div class="pcard-srv">TR SERVER</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="si">
+    <div class="sheadline rv0">
+      <span class="shltag">// COMBAT ANALYTICS</span>
+      <div class="shlt">İSTATİSTİKLER</div>
+      <p class="shlsub">Toprak Yel'in sahada bıraktığı iz — rakamlarla kanıtlanmış bir üstünlük</p>
+    </div>
+    <div class="sgrid">
+      <div class="sc rv0 d1"><div class="scico">💀</div><div class="scv"><span class="cnt" data-t="2847">0</span></div><div class="scl">Toplam Kill</div><div class="scs">Son 90 gün</div></div>
+      <div class="sc rv0 d2"><div class="scico">🎯</div><div class="scv"><span class="cnt" data-t="67">0</span><span style="font-size:.45em;color:var(--gr);vertical-align:super">%</span></div><div class="scl">Headshot Oranı</div><div class="scs">Reyna ile</div></div>
+      <div class="sc rv0 d3"><div class="scico">⬦</div><div class="scv"><span class="cnt" data-t="240">0</span></div><div class="scl">Ortalama ACS</div><div class="scs">Average Combat Score</div></div>
+      <div class="sc rv0 d4"><div class="scico">🏆</div><div class="scv"><span class="cnt" data-t="73">0</span><span style="font-size:.45em;color:var(--gr);vertical-align:super">%</span></div><div class="scl">Kazanma Oranı</div><div class="scs">Ranked matches</div></div>
+    </div>
+    <div class="sprog">
+      <div class="pg rvl">
+        <div class="pgt">AIM DAĞILIMI</div>
+        <div class="pi"><div class="pih"><span class="pin">Headshot</span><span class="piv">67%</span></div><div class="pt"><div class="pf pr" data-w="67"></div></div></div>
+        <div class="pi"><div class="pih"><span class="pin">Gövde</span><span class="piv">25%</span></div><div class="pt"><div class="pf pp" data-w="25"></div></div></div>
+        <div class="pi"><div class="pih"><span class="pin">Bacak</span><span class="piv">8%</span></div><div class="pt"><div class="pf pt2" data-w="8"></div></div></div>
+        <div class="pi" style="margin-top:18px"><div class="pih"><span class="pin">First Blood</span><span class="piv">42%</span></div><div class="pt"><div class="pf pr" data-w="42"></div></div></div>
+        <div class="pi"><div class="pih"><span class="pin">Clutch Win</span><span class="piv">58%</span></div><div class="pt"><div class="pf pg2" data-w="58"></div></div></div>
+      </div>
+      <div class="pg rvr">
+        <div class="pgt">AJAN KULLANIMI</div>
+        <div class="pi"><div class="pih"><span class="pin">Reyna</span><span class="piv">87%</span></div><div class="pt"><div class="pf pp" data-w="87"></div></div></div>
+        <div class="pi"><div class="pih"><span class="pin">Jett</span><span class="piv">7%</span></div><div class="pt"><div class="pf pt2" data-w="7"></div></div></div>
+        <div class="pi"><div class="pih"><span class="pin">Neon</span><span class="piv">4%</span></div><div class="pt"><div class="pf pr" data-w="4"></div></div></div>
+        <div class="pi"><div class="pih"><span class="pin">Diğer</span><span class="piv">2%</span></div><div class="pt"><div class="pf pg2" data-w="2"></div></div></div>
+        <div class="pi" style="margin-top:18px"><div class="pih"><span class="pin">Devour Etkinliği</span><span class="piv">91%</span></div><div class="pt"><div class="pf pp" data-w="91"></div></div></div>
+        <div class="pi"><div class="pih"><span class="pin">Empress Win Rate</span><span class="piv">78%</span></div><div class="pt"><div class="pf pg2" data-w="78"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE 2 -->
+<div class="mq"><div class="mqt rev">
+  <span class="mqi col">EMPRESS</span><span class="mqs"></span>
+  <span class="mqi">DEVOUR</span><span class="mqs"></span>
+  <span class="mqi col">DISMISS</span><span class="mqs"></span>
+  <span class="mqi">LEER</span><span class="mqs"></span>
+  <span class="mqi col">KILL SOUL</span><span class="mqs"></span>
+  <span class="mqi">PHANTOM PROTOCOL</span><span class="mqs"></span>
+  <span class="mqi col">EMPRESS</span><span class="mqs"></span>
+  <span class="mqi">DEVOUR</span><span class="mqs"></span>
+  <span class="mqi col">DISMISS</span><span class="mqs"></span>
+  <span class="mqi">LEER</span><span class="mqs"></span>
+  <span class="mqi col">KILL SOUL</span><span class="mqs"></span>
+  <span class="mqi">PHANTOM PROTOCOL</span><span class="mqs"></span>
+</div></div>
+
+<!-- REYNA ABILITIES -->
+<section id="reyna">
+  <div class="rybg"></div>
+  <div class="si">
+    <div class="ryintro rv0">
+      <span class="ryi-tag">// AGENT ABILITIES</span>
+      <div class="ryi-title">REYNA</div>
+      <p class="ryi-sub">Meksika kökenli Valorant'ın en saldırgan duelist ajanı. Her kill sonrası kendini iyileştirip rakip takımı tek başına çökertecek güce sahip. Toprak'ın elinde ise Reyna, gerçek anlamda ölümsüz.</p>
+    </div>
+    <div class="abgrid">
+      <div class="ab leer rvl d1">
+        <div class="abh"><div class="abkey">Q</div><div style="font-size:28px">👁️</div><div class="abname">LEER</div><div class="abcharges"><div class="abch"></div><div class="abch"></div></div></div>
+        <p class="abdesc">Düşman takımının çevresindeki bir <strong>görünmez göz</strong> fırlatır. Bu gözü gören tüm rakipler geçici olarak <strong>kör olur</strong>. Toprak bunu entry öncesi mükemmel zamanlıyor.</p>
+        <div class="abcost">💰 200 Kredi</div>
+        <div class="abtype">⬦ Görüş Engeli</div>
+      </div>
+      <div class="ab devour rvr d2">
+        <div class="abh"><div class="abkey">E</div><div style="font-size:28px">💜</div><div class="abname">DEVOUR</div><div class="abcharges"><div class="abch"></div></div></div>
+        <p class="abdesc">Kill sonrası bırakılan <strong>Soul Orb</strong>'ı hızla tüketerek büyük miktarda <strong>HP yeniler</strong>. Toprak bu yeteneği ile cephelerde yaşamaya devam eder.</p>
+        <div class="abcost">💊 Kill + Soul Orb</div>
+        <div class="abtype">⬦ Can Yenileme</div>
+      </div>
+      <div class="ab dismiss rvl d3">
+        <div class="abh"><div class="abkey">C</div><div style="font-size:28px">👻</div><div class="abname">DISMISS</div><div class="abcharges"><div class="abch"></div></div></div>
+        <p class="abdesc">Soul Orb tüketerek kısa süreliğine <strong>dokunulmaz</strong> hale gelir. Empress aktifken Dismiss onu tamamen <strong>görünmez</strong> yapar.</p>
+        <div class="abcost">👻 Soul Orb</div>
+        <div class="abtype">⬦ Kaçış / Reposisyon</div>
+      </div>
+      <div class="ab emp ult rv0 d4">
+        <div class="abh"><div class="abkey">X</div><div style="font-size:38px">👑</div><div class="abname">EMPRESS</div></div>
+        <p class="abdesc">Reyna'nın <strong>ultimate yeteneği</strong> — aktive olduğunda ateş hızı, şarj hızı ve geçiş hızı dramatik biçimde artar. Her kill süreyi uzatır. Toprak Empress ile gerçek anlamda <strong>durdurulamaz</strong> hale gelir.</p>
+        <div class="orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+        <div class="abtype" style="background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3);color:var(--go)">👑 Ultimate — 6 Orb</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section id="tips">
+  <div class="si">
+    <div class="sh rv0">
+      <div><div class="stag">// Reyna Pro Taktikleri</div><h2 class="stitle">TOPRAK'IN <span>REHBERİ</span></h2></div>
+      <div class="sline"></div>
+    </div>
+    <div class="tgrid">
+      <div class="tc rv0 d1"><div class="tcn">01</div><div class="tcico">👁️</div><div class="tct">Leer Timing</div><p class="tct2"><strong>Leer</strong>'ı corner'dan swing yapmadan önce fırlat. Rakibin kör olduğu 1.5 saniyelik pencereye girip tam headshot'ı al. Toprak bu timingleri <strong>istikrarlı şekilde</strong> yapar.</p></div>
+      <div class="tc rv0 d2"><div class="tcn">02</div><div class="tcico">💜</div><div class="tct">Devour Mekaniği</div><p class="tct2">Kill'den hemen sonra orb almak için <strong>uzaklaşmaya gerek yok.</strong> Uzaktan E'ye bastığında emiyor. Agresif hold yaparken <strong>pozisyonunu koru.</strong></p></div>
+      <div class="tc rv0 d3"><div class="tcn">03</div><div class="tcico">👑</div><div class="tct">Empress Girişi</div><p class="tct2">Empress'i full HP'ye yakınken aç. Ilk kill anında <strong>heal + süre uzar</strong>, momentum kırılmaz. Düşman <strong>koşmak zorunda kalır</strong>, sen kovalarsın.</p></div>
+      <div class="tc rv0 d4"><div class="tcn">04</div><div class="tcico">👻</div><div class="tct">Dismiss Kaçışı</div><p class="tct2">Dismiss'i son anda kullan — hasarı aldıktan sonra değil, <strong>almadan önce.</strong> Pozisyon değiştir, tekrar swing yap, <strong>kill kapa.</strong></p></div>
+      <div class="tc rv0 d5"><div class="tcn">05</div><div class="tcico">🎯</div><div class="tct">Duel Almak</div><p class="tct2">Reyna duellara <strong>girmek için tasarlandı.</strong> Off-angle'lar, unexpected push'lar ve agresif peek'ler. Toprak bunu savunmada da kullanır — <strong>rakip hiçbir şey beklemez.</strong></p></div>
+      <div class="tc rv0 d6"><div class="tcn">06</div><div class="tcico">🔥</div><div class="tct">Snowball Effect</div><p class="tct2">İlk kill kritiktir. First blood → Devour → full HP → ikinci kill → Empress → <strong>tüm round kapanır.</strong> Toprak bu zinciri raundun ilk 30 saniyesinde kurmayı sever.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ISTANBUL -->
+<section id="istanbul">
+  <div class="istbg"></div>
+  <div class="si">
+    <div class="istgrid">
+      <div class="istleft">
+        <div class="isttag rvl">Ev Şehri</div>
+        <h2 class="isth rvl d1">DOĞUP BÜYÜDÜĞÜ<span class="city">İSTANBUL</span></h2>
+        <p class="isttxt rvl d2"><strong>İstanbul</strong> — iki kıtayı birleştiren, tarihin ruhunu yaşayan ve Toprak'ı yetiştiren eşsiz şehir. Sabahın köründe Boğaz manzarasına bakarken bile headshot timingleri aklının bir köşesinde döner.</p>
+        <p class="isttxt rvl d3">İstanbul'un kaotik enerjisi onu <strong>daha hızlı, daha keskin</strong> yapıyor. Her raundda takım arkadaşlarıyla köprü kurar.</p>
+        <div class="istfacts">
+          <div class="istf rv0 d1"><div class="istfic">🌉</div><div class="istft">Boğaz</div><div class="istftxt">İki kıtanın buluşma noktası</div></div>
+          <div class="istf rv0 d2"><div class="istfic">🕌</div><div class="istft">Ayasofya</div><div class="istftxt">Tarihin canlı tanığı</div></div>
+          <div class="istf rv0 d3"><div class="istfic">🎮</div><div class="istft">Gaming Sahnesi</div><div class="istftxt">TR'nin en güçlü serveri</div></div>
+          <div class="istf rv0 d4"><div class="istfic">🌃</div><div class="istft">Gece Hayatı</div><div class="istftxt">Gece rankedlere giriş</div></div>
+        </div>
+      </div>
+      <div class="rvr d2" style="display:flex;justify-content:center">
+        <div class="istmap">
+          <div class="istmgrid"></div>
+          <div class="bos"></div>
+          <div class="pin pm"><div class="pdot"></div><div class="plbl">TOPRAK YEL 🎮</div></div>
+          <div class="pin pb1"><div class="pdot"></div><div class="plbl">Boğaz Köprüsü</div></div>
+          <div class="pin ph"><div class="pdot"></div><div class="plbl">Ayasofya</div></div>
+          <div class="istmov">
+            <div class="istcoords">41.0082° N<br>28.9784° E</div>
+            <div class="istcity">İSTANBUL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" style="padding:118px 0">
+  <div class="galbg"></div>
+  <div class="si" style="position:relative;z-index:2">
+    <div class="sh rv0">
+      <div><div class="stag">// Galeri</div><h2 class="stitle">TOPRAK'IN <span>DÜNYASI</span></h2></div>
+      <div class="sline"></div>
+    </div>
+    <div class="pshow">
+      <div class="gcard main rvl">
+        <img src="photo.png" alt="Toprak Yel" onerror="this.style.display='none'"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(155,60,247,.07),transparent);pointer-events:none;z-index:2"></div>
+        <div class="gov"></div>
+        <div class="ginfo"><div class="gilbl">⬦ REYNA MAIN</div><div class="gititle">TOPRAK YEL</div></div>
+        <div style="position:absolute;top:14px;left:14px;z-index:5;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--r);background:var(--rf);border:1px solid var(--r);padding:3px 9px;border-radius:2px;letter-spacing:.15em">LIVE</div>
+      </div>
+      <div class="gcard sec gtxt rv0 d1"><div class="gtxte">⬦</div><div class="gtxtt">EMPRESS<br>ALWAYS<br>READY</div><div class="gtxts">Ultimate Active</div></div>
+      <div class="gcard sec rv0 d2">
+        <img src="photo.png" alt="Toprak" onerror="this.style.display='none'" style="filter:hue-rotate(260deg) saturate(1.3)"/>
+        <div class="gov"></div><div class="ginfo"><div class="gilbl">Reyna Mode</div><div class="gititle">EMPRESS</div></div>
+      </div>
+      <div class="gcard sec gtxt rv0 d3" style="background:linear-gradient(135deg,rgba(0,255,204,.07),var(--bgc))"><div class="gtxte">🌃</div><div class="gtxtt" style="color:var(--te)">İSTANBUL<br>GECE<br>RANKED</div><div class="gtxts" style="color:var(--te)">TR SERVER</div></div>
+      <div class="gcard sec rv0 d4">
+        <img src="photo.png" alt="Toprak" onerror="this.style.display='none'" style="filter:grayscale(60%) contrast(1.2)"/>
+        <div class="gov"></div><div class="ginfo"><div class="gilbl">Focus Mode</div><div class="gititle">CLUTCH TIME</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WEAPON -->
+<section id="weapon">
+  <div class="si">
+    <div class="sh rv0">
+      <div><div class="stag">// Loadout</div><h2 class="stitle">TERCİH <span>SİLAHI</span></h2></div>
+      <div class="sline"></div>
+    </div>
+    <div class="wbanner rv0">
+      <div>
+        <div class="wbt">// VANDAL — PRIMARY WEAPON</div>
+        <h3 class="wbh">VANDAL<br>EDITION</h3>
+        <p class="wbs">Toprak'ın birincil silahı. One-tap headshot mekaniği Reyna'nın kill-snowball efektiyle mükemmel uyum sağlar. Uzun mesafede de tam isabetli, agresif oyun stiline biçilmiş kaftan.</p>
+      </div>
+      <div class="wsgrid">
+        <div class="wsi"><div class="wsl">Hasar / Saniye</div><div class="wsv">156</div><div class="wsbar"><div class="wsfill" data-w="90"></div></div></div>
+        <div class="wsi"><div class="wsl">Atış Hızı</div><div class="wsv">9.75/s</div><div class="wsbar"><div class="wsfill" data-w="70"></div></div></div>
+        <div class="wsi"><div class="wsl">Kafa Hasarı</div><div class="wsv">160 HP</div><div class="wsbar"><div class="wsfill" data-w="95"></div></div></div>
+        <div class="wsi"><div class="wsl">Menzil</div><div class="wsv">50m+</div><div class="wsbar"><div class="wsfill" data-w="80"></div></div></div>
+      </div>
+    </div>
+    <div class="xhsec">
+      <div class="xhc rvl"><div class="xht">Toprak'ın Nişangahı</div><div class="xhd"><div class="xhl vt top"></div><div class="xhl vt bot"></div><div class="xhl hz lft"></div><div class="xhl hz rgt"></div></div><div class="xhcode">0;P;c;1;h;0;f;0;0l;3;0a;1;0f;0;1b;0</div></div>
+      <div class="xhc rvr" style="background:linear-gradient(135deg,var(--bgc),rgba(155,60,247,.05));border-color:var(--rv)"><div class="xht" style="color:var(--rvl)">Empress Mode Nişangahı</div><div class="xhd"><div class="xhl vt top" style="background:var(--rv)"></div><div class="xhl vt bot" style="background:var(--rv)"></div><div class="xhl hz lft" style="background:var(--rv)"></div><div class="xhl hz rgt" style="background:var(--rv)"></div><div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:4px;height:4px;background:var(--rv);border-radius:50%;box-shadow:0 0 8px var(--rv)"></div></div><div class="xhcode" style="color:var(--rvl)">0;P;c;5;h;0;f;0;0l;4;0a;1;0f;0;1b;0</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="si">
+    <div class="sh rv0">
+      <div><div class="stag">// Kariyer Yolculuğu</div><h2 class="stitle">RANK <span>TARİHÇESİ</span></h2></div>
+      <div class="sline"></div>
+    </div>
+    <div class="tl">
+      <div class="tli rv0"><div class="tlc"><div class="tlcard"><div class="tlseas">Episode 1 / Act 1</div><div class="tlrk br">🔩 IRON → BRONZE</div><p class="tldesc">Her şeyin başladığı dönem. Reyna'yı keşfediyor, ama henüz aim tutarlı değil. Yine de potansiyel hissettiriyor.</p></div></div><div class="tldot"></div><div class="tlph"></div></div>
+      <div class="tli rv0 d1"><div class="tlph"></div><div class="tldot"></div><div class="tlc"><div class="tlcard"><div class="tlseas">Episode 2 / Act 2</div><div class="tlrk sl">🥈 SILVER → GOLD</div><p class="tldesc">Devour mekaniği artık içselleşmiş. First blood oranı yükseliyor. Takım arkadaşları "bu Reyna çok iyi" demeye başlıyor.</p></div></div></div>
+      <div class="tli rv0 d2"><div class="tlc"><div class="tlcard"><div class="tlseas">Episode 4 / Act 1</div><div class="tlrk pl">💠 PLATINUM PEAK</div><p class="tldesc">Leer timingleri mükemmelleşti. Empress kullanımı bilinçli hale geldi. Gerçek bir Reyna main doğuyor.</p></div></div><div class="tldot rv"></div><div class="tlph"></div></div>
+      <div class="tli rv0 d3"><div class="tlph"></div><div class="tldot rv"></div><div class="tlc"><div class="tlcard"><div class="tlseas">Episode 5 / Act 3</div><div class="tlrk di">💎 DIAMOND — GELDİ!</div><p class="tldesc">Diamond'a ulaştığı an. Duvarlar yıkıldı, rakipler korkuyor. İstanbul'un en güçlü Reyna'larından biri oldu.</p></div></div></div>
+      <div class="tli rv0 d4"><div class="tlc"><div class="tlcard" style="border-color:var(--go)"><div class="tlseas">Günümüz — 2026</div><div class="tlrk ra">⭐ IMMORTAL HEDEFİ</div><p class="tldesc">Diamond'da oturmuyor. Immortal ve ötesi için grind'e devam. Toprak durmuyor, Reyna ile birlikte zirveye ulaşacak.</p></div></div><div class="tldot gd"></div><div class="tlph"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAPS -->
+<section id="maps">
+  <div class="mapsbg"></div>
+  <div class="si">
+    <div class="sh rv0">
+      <div><div class="stag">// Harita Performansı</div><h2 class="stitle">EN İYİ <span>HARİTALAR</span></h2></div>
+      <div class="sline"></div>
+    </div>
+    <div class="mapsgrid">
+      <div class="mcard rv0 d1"><div class="mcbg">🏛️</div><div class="mcgrid"></div><div class="mcc"><div class="mcn">ASCENT</div><div class="mcs">Orta harita kontrolü</div><div class="mcwr"><span class="mcwrt">Kazanma Oranı</span><span class="mcwrv hi">79%</span></div></div></div>
+      <div class="mcard rv0 d2"><div class="mcbg">🌊</div><div class="mcgrid"></div><div class="mcc"><div class="mcn">BIND</div><div class="mcs">Teleport agresyonu</div><div class="mcwr"><span class="mcwrt">Kazanma Oranı</span><span class="mcwrv hi">74%</span></div></div></div>
+      <div class="mcard rv0 d3"><div class="mcbg">❄️</div><div class="mcgrid"></div><div class="mcc"><div class="mcn">ICEBOX</div><div class="mcs">Dar koridor haritası</div><div class="mcwr"><span class="mcwrt">Kazanma Oranı</span><span class="mcwrv">65%</span></div></div></div>
+      <div class="mcard rv0 d4"><div class="mcbg">🌅</div><div class="mcgrid"></div><div class="mcc"><div class="mcn">HAVEN</div><div class="mcs">3 bomba noktası</div><div class="mcwr"><span class="mcwrt">Kazanma Oranı</span><span class="mcwrv hi">71%</span></div></div></div>
+      <div class="mcard rv0 d5"><div class="mcbg">🏙️</div><div class="mcgrid"></div><div class="mcc"><div class="mcn">SUNSET</div><div class="mcs">Yeni favori harita</div><div class="mcwr"><span class="mcwrt">Kazanma Oranı</span><span class="mcwrv hi">77%</span></div></div></div>
+      <div class="mcard rv0 d6" style="border-color:var(--r)"><div class="mcbg">🌺</div><div class="mcgrid"></div><div class="mcc"><div class="mcn">LOTUS</div><div class="mcs">⭐ En yüksek K/D</div><div class="mcwr"><span class="mcwrt">Kazanma Oranı</span><span class="mcwrv hi">83%</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE 3 -->
+<div class="mq" style="background:rgba(155,60,247,.025)"><div class="mqt" style="animation-duration:16s">
+  <span class="mqi" style="-webkit-text-stroke:1px var(--rv);color:var(--rvl)">TOPRAK YEL</span><span class="mqs" style="background:var(--rv)"></span>
+  <span class="mqi" style="-webkit-text-stroke:1px var(--rv)">EN İYİ ARKADAŞ</span><span class="mqs" style="background:var(--rv)"></span>
+  <span class="mqi col">VALORANT</span><span class="mqs" style="background:var(--rv)"></span>
+  <span class="mqi" style="-webkit-text-stroke:1px var(--rv)">REYNA MAIN</span><span class="mqs" style="background:var(--rv)"></span>
+  <span class="mqi" style="color:var(--te);-webkit-text-stroke:0">İSTANBUL</span><span class="mqs" style="background:var(--rv)"></span>
+  <span class="mqi" style="-webkit-text-stroke:1px var(--rv)">DIAMOND</span><span class="mqs" style="background:var(--rv)"></span>
+  <span class="mqi" style="-webkit-text-stroke:1px var(--rv);color:var(--rvl)">TOPRAK YEL</span><span class="mqs" style="background:var(--rv)"></span>
+  <span class="mqi" style="-webkit-text-stroke:1px var(--rv)">EN İYİ ARKADAŞ</span><span class="mqs" style="background:var(--rv)"></span>
+  <span class="mqi col">VALORANT</span><span class="mqs" style="background:var(--rv)"></span>
+  <span class="mqi" style="-webkit-text-stroke:1px var(--rv)">REYNA MAIN</span><span class="mqs" style="background:var(--rv)"></span>
+  <span class="mqi" style="color:var(--te);-webkit-text-stroke:0">İSTANBUL</span><span class="mqs" style="background:var(--rv)"></span>
+  <span class="mqi" style="-webkit-text-stroke:1px var(--rv)">DIAMOND</span><span class="mqs" style="background:var(--rv)"></span>
+</div></div>
+
+<!-- TRIBUTE -->
+<section id="tribute">
+  <div class="trbg"></div>
+  <div class="si">
+    <div class="trcnt rv0">
+      <span class="trtag">// Arkadaşlık Tribütü</span>
+      <div class="trq">BU SİTE SENİN İÇİN<span class="acc">TOPRAK!</span></div>
+      <p class="trsub">Valorant'ta <strong>rakipleri yutan</strong>, İstanbul'un kalbinde yaşayan, <span class="rv">Reyna</span>'sıyla sahneyi yakıp geçen <strong>Toprak Yel</strong>'e en büyük arkadaşından özel tribute. Sen sadece iyi bir Reyna oyuncusu değilsin — <strong>efsanesin.</strong></p>
+      <div class="trhearts"><span class="trh">❤️</span><span class="trh">🎮</span><span class="trh">⬦</span><span class="trh">🎮</span><span class="trh">❤️</span></div>
+      <div class="trbox">
+        <div class="trqt">"Seni çok seviyorum arkadaşım. Empress aktifken rakipler kaçıyor ama ben her zaman yanındayım. Valorant'ta da hayatta da — en iyi duo biz olacağız."</div>
+        <div class="trsig">— En İyi Arkadaşından ❤️</div>
+      </div>
+      <div class="trdiv"><div class="trdivl"></div><div class="trdivc">Toprak'ın Playlist'i</div><div class="trdivd"></div><div class="trdivl"></div></div>
+      <div class="trplt">🎵 GAMING PLAYLIST</div>
+      <div class="plitems">
+        <div class="pli"><span class="plinum">01</span><span class="pliico">🎵</span><div class="plii"><div class="plin">Warriors</div><div class="plia">Imagine Dragons × League of Legends</div></div><span class="plid">3:10</span></div>
+        <div class="pli"><span class="plinum">02</span><span class="pliico">🎵</span><div class="plii"><div class="plin">Enemy</div><div class="plia">Imagine Dragons × Arcane</div></div><span class="plid">2:54</span></div>
+        <div class="pli"><span class="plinum">03</span><span class="pliico">🎵</span><div class="plii"><div class="plin">Valorant Main Theme</div><div class="plia">Riot Games</div></div><span class="plid">2:31</span></div>
+        <div class="pli"><span class="plinum">04</span><span class="pliico">🎵</span><div class="plii"><div class="plin">Unstoppable</div><div class="plia">Sia</div></div><span class="plid">3:38</span></div>
+        <div class="pli"><span class="plinum">05</span><span class="pliico">🎵</span><div class="plii"><div class="plin">GODS</div><div class="plia">NewJeans × Worlds 2023</div></div><span class="plid">3:11</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ftbg"></div><div class="ftorb1"></div><div class="ftorb2"></div>
+  <div class="si ftcnt">
+    <div class="fttop">
+      <div class="ftbrand">
+        <div class="ftlogo">TOPRAK<span>.</span></div>
+        <p class="fttag">İstanbul'dan dünyaya hitap eden, Reyna ile zirveye oynayan Toprak Yel'in resmi tribute sitesi.</p>
+        <div class="ftsoc"><div class="ftsocb">🎮</div><div class="ftsocb">📷</div><div class="ftsocb">🎵</div><div class="ftsocb">💬</div></div>
+      </div>
+      <div><div class="ftcolt">Navigasyon</div><div class="ftlinks"><a href="#hero" class="ftlink">Ana Sayfa</a><a href="#about" class="ftlink">Hakkında</a><a href="#stats" class="ftlink">İstatistikler</a><a href="#reyna" class="ftlink">Reyna Guide</a><a href="#istanbul" class="ftlink">İstanbul</a></div></div>
+      <div><div class="ftcolt">Valorant</div><div class="ftlinks"><a href="#reyna" class="ftlink">Reyna Abilities</a><a href="#maps" class="ftlink">Harita Rehberi</a><a href="#weapon" class="ftlink">Crosshair Kodu</a><a href="#timeline" class="ftlink">Rank Yolculuğu</a><a href="#weapon" class="ftlink">Loadout</a></div></div>
+      <div><div class="ftcolt">İletişim</div><div class="ftlinks"><a href="#" class="ftlink">Discord</a><a href="#" class="ftlink">Instagram</a><a href="#" class="ftlink">Twitch</a><a href="#" class="ftlink">YouTube</a></div></div>
+    </div>
+    <div class="ftbot">
+      <div class="ftcp">© 2026 Toprak Yel Tribute. <span>Made with ❤️</span></div>
+      <div class="ftvl">VALORANT</div>
+      <div class="ftmw">En iyi arkadaşından <span class="h">❤️</span> ile yapıldı</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// LOADER
+(function(){
+  var f=document.getElementById('lf'),p=document.getElementById('lpct'),lp=document.getElementById('llpct'),l=document.getElementById('loader'),s=performance.now(),d=2800;
+  function u(n){var t=Math.min((n-s)/d,1),e=1-Math.pow(1-t,4),v=Math.round(e*100);
+    f.style.width=v+'%';p.textContent=v;lp.textContent=v+'%';
+    if(t<1)requestAnimationFrame(u);
+    else setTimeout(function(){l.classList.add('out');document.body.classList.add('ready')},400);
+  }
+  requestAnimationFrame(u);
+})();
+
+// CURSOR
+(function(){
+  var co=document.getElementById('co'),ci=document.getElementById('ci'),mx=0,my=0,ox=0,oy=0;
+  document.addEventListener('mousemove',function(e){
+    mx=e.clientX;my=e.clientY;
+    ci.style.left=mx+'px';ci.style.top=my+'px';
+    co.style.opacity='1';ci.style.opacity='1';
+  });
+  function ac(){ox+=(mx-ox)*.1;oy+=(my-oy)*.1;co.style.left=ox+'px';co.style.top=oy+'px';requestAnimationFrame(ac);}
+  ac();
+  document.querySelectorAll('a,button,.ab,.mcard,.gcard,.pli,.ic').forEach(function(el){
+    el.addEventListener('mouseenter',function(){document.body.classList.add('ch')});
+    el.addEventListener('mouseleave',function(){document.body.classList.remove('ch')});
+  });
+})();
+
+// NAVBAR + SCROLL PROGRESS
+(function(){
+  var nav=document.getElementById('nav'),sp=document.getElementById('sp');
+  window.addEventListener('scroll',function(){
+    nav.classList.toggle('sc',window.scrollY>60);
+    var pct=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
+    sp.style.width=pct+'%';
+  },{passive:true});
+})();
+
+// SCROLL REVEAL
+(function(){
+  var els=document.querySelectorAll('.rv0,.rvl,.rvr,.rvs');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('vis')});
+  },{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+  els.forEach(function(el){obs.observe(el)});
+})();
+
+// COUNTERS
+(function(){
+  var els=document.querySelectorAll('.cnt');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting&&!e.target.dataset.done){
+        e.target.dataset.done='1';
+        var t=+e.target.dataset.t,s=performance.now(),d=2000;
+        function u(n){var p=Math.min((n-s)/d,1),ev=1-Math.pow(1-p,3);
+          e.target.textContent=Math.round(ev*t).toLocaleString('tr-TR');
+          if(p<1)requestAnimationFrame(u);
+        }
+        requestAnimationFrame(u);
+      }
+    });
+  },{threshold:.5});
+  els.forEach(function(el){obs.observe(el)});
+})();
+
+// PROGRESS BARS
+(function(){
+  var all=[].concat(
+    Array.from(document.querySelectorAll('.pf[data-w]')),
+    Array.from(document.querySelectorAll('.wsfill[data-w]'))
+  );
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting&&!e.target.dataset.done){
+        e.target.dataset.done='1';
+        setTimeout(function(){e.target.style.width=e.target.dataset.w+'%'},200);
+      }
+    });
+  },{threshold:.3});
+  all.forEach(function(el){obs.observe(el)});
+})();
+
+// PARTICLES
+(function(){
+  var c=document.getElementById('pc'),ctx=c.getContext('2d'),W,H,pts=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+  function rnd(a,b){return a+Math.random()*(b-a)}
+  function Pt(){this.reset()}
+  Pt.prototype.reset=function(){this.x=rnd(0,W);this.y=rnd(0,H);this.sz=rnd(.4,1.8);this.vx=rnd(-.25,.25);this.vy=rnd(-.45,-.08);this.op=rnd(.1,.55);this.life=0;this.max=rnd(200,600);var r=Math.random();this.col=r<.55?'rgba(255,70,85,':r<.78?'rgba(155,60,247,':'rgba(0,255,204,'};
+  Pt.prototype.upd=function(){this.x+=this.vx;this.y+=this.vy;this.life++;if(this.life>this.max||this.y<-8)this.reset()};
+  Pt.prototype.draw=function(){var f=this.life<60?this.life/60:this.life>this.max-60?(this.max-this.life)/60:1;ctx.beginPath();ctx.arc(this.x,this.y,this.sz,0,Math.PI*2);ctx.fillStyle=this.col+(this.op*f)+')';ctx.fill()};
+  function init(){resize();pts=Array.from({length:100},function(){return new Pt()})}
+  function anim(){ctx.clearRect(0,0,W,H);
+    for(var i=0;i<pts.length;i++){pts[i].upd();pts[i].draw();
+      for(var j=i+1;j<pts.length;j++){var dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<75){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle='rgba(255,70,85,'+((.9-d/75)*.05)+')';ctx.lineWidth=.5;ctx.stroke();}
+      }
+    }
+    requestAnimationFrame(anim);
+  }
+  window.addEventListener('resize',function(){resize();pts.forEach(function(p){p.reset()})},{passive:true});
+  init();anim();
+})();
+
+// TYPING EFFECT
+(function(){
+  var el=document.getElementById('typespan');
+  if(!el)return;
+  var texts=['TR Server','Duelist','Reyna Main','İstanbul'],i=0,c=0,fwd=true;
+  function t(){var cur=texts[i];
+    if(fwd){el.textContent=cur.slice(0,c+1);c++;if(c===cur.length){fwd=false;setTimeout(t,2000);return;}}
+    else{el.textContent=cur.slice(0,c-1);c--;if(c===0){fwd=true;i=(i+1)%texts.length;setTimeout(t,300);return;}}
+    setTimeout(t,fwd?80:50);
+  }
+  setTimeout(t,3600);
+})();
+
+// MAP CARD TILT
+document.querySelectorAll('.mcard,.gcard').forEach(function(card){
+  card.addEventListener('mousemove',function(e){
+    var r=this.getBoundingClientRect(),dx=(e.clientX-r.left-r.width/2)/(r.width/2),dy=(e.clientY-r.top-r.height/2)/(r.height/2);
+    this.style.transform='translateY(-6px) rotateX('+(-dy*4)+'deg) rotateY('+(dx*4)+'deg)';
+  });
+  card.addEventListener('mouseleave',function(){this.style.transform=''});
+});
+
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(this.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}
+  });
+});
+
+// EMPRESS EASTER EGG
+(function(){
+  var active=false;
+  document.addEventListener('keydown',function(e){
+    if((e.key==='e'||e.key==='E')&&!active){
+      active=true;
+      var flash=document.createElement('div');
+      flash.style.cssText='position:fixed;inset:0;background:radial-gradient(circle,rgba(155,60,247,.28) 0%,transparent 70%);pointer-events:none;z-index:9998;animation:ef 2.2s ease forwards';
+      var toast=document.createElement('div');
+      toast.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(26,42,56,.95);border:2px solid #9B3CF7;padding:22px 46px;border-radius:8px;font-family:"Bebas Neue",sans-serif;font-size:48px;letter-spacing:6px;color:#C87FFF;text-shadow:0 0 28px #9B3CF7;z-index:9999;animation:et 2.5s ease forwards;pointer-events:none;backdrop-filter:blur(10px)';
+      toast.textContent='⬦ EMPRESS ⬦';
+      var st=document.createElement('style');
+      st.textContent='@keyframes ef{0%{opacity:0}20%{opacity:1}100%{opacity:0}}@keyframes et{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(.9)}}';
+      document.head.appendChild(st);
+      document.body.appendChild(flash);document.body.appendChild(toast);
+      setTimeout(function(){flash.remove();toast.remove();active=false},2600);
+    }
+  });
+})();
+
+// CONSOLE EGG
+console.log('%c⬦ TOPRAK YEL — REYNA MAIN ⬦','color:#9B3CF7;font-size:20px;font-weight:bold;font-family:monospace');
+console.log('%cİstanbul\'dan selamlar. Empress aktif.','color:#FF4655;font-size:14px;font-family:monospace');
+console.log('%cPress "E" for EMPRESS mode!','color:#FFD700;font-size:12px;font-family:monospace');
+</script>
+</body>
+                                           </html>
